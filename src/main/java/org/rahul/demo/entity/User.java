@@ -30,7 +30,7 @@ public class User {
     @DBRef
     private List<JournalEntry> journalEntries = new ArrayList<>();
 
-
+    private List<String> roles;
 // @DBRef:
 // This annotation tells Spring Data MongoDB that journalEntries is a reference to documents in another collection, rather than embedded documents. It will store a reference to the JournalEntry documents, typically their IDs, in the journalEntries field.
 
