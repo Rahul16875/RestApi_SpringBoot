@@ -6,6 +6,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 import org.bson.types.ObjectId;
 import org.rahul.demo.entity.JournalEntry;
@@ -16,6 +17,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.HttpStatusCode;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -37,13 +40,17 @@ public class JournalEntryControllerv2 {
     @Autowired
     private UserService userService;
 
-    @GetMapping("{userName}")
-    public ResponseEntity<?> getAllJournalEntriesOfUser(@PathVariable String userName){
+    // @GetMapping("{userName}")
+    @GetMapping
+    public ResponseEntity<?> getAllJournalEntriesOfUser(){
 
     // public ResponseEntity<?> getAll(){  
         
         // journal entry service me getAll method banaya jo findAll function se sari entries find kr rha. usi ko yha controller me call kiya. 
 
+        Authentication authentication = (Authentication) SecurityContextHolder.getContext().getAuthentication();
+
+        String userName = authentication.getName();
         
         User user = userService.findByUserName(userName);
 
@@ -57,12 +64,17 @@ public class JournalEntryControllerv2 {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
     }
 
-     @PostMapping("{userName}")
-     public ResponseEntity<JournalEntry> createEntry(@RequestBody JournalEntry myEntry, @PathVariable String userName){
+     @PostMapping
+    //  public ResponseEntity<JournalEntry> createEntry(@RequestBody JournalEntry myEntry, @PathVariable String userName){
+
+     public ResponseEntity<JournalEntry> createEntry(@RequestBody JournalEntry myEntry){
 
         //  journal entry service me saveEntry ka method banaya jo .save function use krke entry save kr rha usi ko yha call kiya. 
         try{
             // User user = userService.findByUserName(userName);
+            Authentication authentication = (Authentication) SecurityContextHolder.getContext().getAuthentication();
+            String userName = authentication.getName();
+
             journalEntryService.saveEntry(myEntry,userName);
             return new ResponseEntity<>(myEntry,HttpStatus.CREATED);
         }catch(Exception e){
@@ -73,12 +85,20 @@ public class JournalEntryControllerv2 {
 
     @GetMapping("id/{myId}")  
     public ResponseEntity<JournalEntry> getJournalEntryById(@PathVariable ObjectId myId){       
+
+        Authentication authentication = (Authentication) SecurityContextHolder.getContext().getAuthentication();
+        String userName = authentication.getName();
+        User user = userService.findByUserName(userName);
+        List<JournalEntry> collect = user.getJournalEntries().stream().filter(x -> x.getId().equals(myId)).collect(Collectors.toList());
+
+        if(!collect.isEmpty()){
             Optional<JournalEntry> journalEntry = journalEntryService.findById(myId);
             if(journalEntry.isPresent()){
                 return new ResponseEntity<>(journalEntry.get(),HttpStatus.OK);
-            }else{
-                return new ResponseEntity<>(HttpStatus.NOT_FOUND);
             }
+        }
+                return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        
     }   
 
     @DeleteMapping("id/{userName}/{myId}")  
