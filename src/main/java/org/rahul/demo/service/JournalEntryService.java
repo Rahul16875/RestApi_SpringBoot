@@ -58,17 +58,16 @@ public class JournalEntryService {
         return journalEntryRepository.findById(id);
     }
 
-    public void deleteById(ObjectId id, String userName){
+    public boolean deleteById(ObjectId id, String userName){
+        boolean removed = false;
         User user = userService.findByUserName(userName);
-        user.getJournalEntries().removeIf(x -> x.getId().equals(id));
-        userService.saveNewUser(user);
+         removed = user.getJournalEntries().removeIf(x -> x.getId().equals(id));
+        if (removed) {
+            userService.saveUser(user);
         journalEntryRepository.deleteById(id);
-
+        }
+        return removed;
     }
-
-    // public List<JournalEntry> findByUserName(String userName){
-    //     return 
-    // }
 }
 
 
