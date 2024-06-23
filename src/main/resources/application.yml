@@ -1,0 +1,28 @@
+# spring:
+#   application:
+#     name: demo
+
+#   data:
+#     mongodb:
+#       uri: mongodb+srv://rahulagrawal16875:feBmWgq4UYNBdn2U@cluster0.5okavph.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0
+#       database: journaldb
+#       auto-index-creation: true
+
+#   main:
+#     allow-circular-references: true
+
+
+spring:
+  profiles:
+    active: dev
+  application:
+    name: demo
+  data:
+    mongodb:
+      uri: mongodb+srv://rahulagrawal16875:feBmWgq4UYNBdn2U@cluster0.5okavph.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0
+      database: journaldb
+      auto-index-creation: true
+  main:
+    allow-circular-references: true
+
+

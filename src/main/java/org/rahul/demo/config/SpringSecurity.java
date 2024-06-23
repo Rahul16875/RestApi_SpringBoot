@@ -15,6 +15,8 @@ import org.springframework.security.web.SecurityFilterChain;
 
 @Configuration
 @EnableWebSecurity
+// @Profile("dev")
+// we can create spring security class according to our profile.
 public class SpringSecurity {
 
     @Autowired
