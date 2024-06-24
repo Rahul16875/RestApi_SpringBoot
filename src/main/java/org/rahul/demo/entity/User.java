@@ -24,6 +24,9 @@ public class User {
     private String userName;
 //  yha par we want to create unique indexes for each username but this will not create automaticaaly so we have written manual on application.properties file. 
 
+    private String email;
+    private boolean sentimentAnalysis;
+
     @NonNull
     private String password;
 
