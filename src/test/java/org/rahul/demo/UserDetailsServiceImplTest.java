@@ -1,4 +1,4 @@
-package org.rahul;
+package org.rahul.demo;
 
 import static org.mockito.Mockito.when;
 

@@ -1,4 +1,4 @@
-package org.rahul;
+package org.rahul.demo;
 
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Disabled;
@@ -19,4 +19,5 @@ public class UserRepositoryImplCriteriaTests {
         Assertions.assertNotNull(userRepository.getUserForSA());
     }
 }
+
 

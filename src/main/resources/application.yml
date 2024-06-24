@@ -25,6 +25,18 @@ spring:
   main:
     allow-circular-references: true
 
+  mail:
+    host: smtp.gmail.com
+    port: 587
+    username: rahulagrawal16875@gmail.com
+    password: vdok bjzv olrb axka
+    properties:
+      mail:
+        smtp:
+          auth: true
+          starttls:
+            enable: true
+
 weather:
   api:
     key: ad30d5cdebdd4f438a4211342242306
